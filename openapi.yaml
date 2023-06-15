@@ -1,0 +1,375 @@
+components:
+  examples:
+    ErroraddressNotFound:
+      value:
+        Code: addressNotFound
+        Message: address not found
+    ErrorbroadcastOutOfRange:
+      value:
+        Code: broadcastOutOfRange
+        Message: broadcast out of range
+    ErrorgatewayOutOfRange:
+      value:
+        Code: gatewayOutOfRange
+        Message: gateway out of range
+    ErrorinvalidBroadcast:
+      value:
+        Code: invalidBroadcast
+        Message: invalid broadcast
+    ErrorinvalidGateway:
+      value:
+        Code: invalidGateway
+        Message: invalid gateway
+    ErrorinvalidRange:
+      value:
+        Code: invalidRange
+        Message: invalid range
+    ErrorinvalidReservedAddress:
+      value:
+        Code: invalidReservedAddress
+        Message: invalid reserved address
+    ErrorrangeNameExists:
+      value:
+        Code: rangeNameExists
+        Message: range name already exists
+    ErrorreservedAddressCollideBroadcast:
+      value:
+        Code: reservedAddressCollideBroadcast
+        Message: reserved address collide with broadcast
+    ErrorreservedAddressCollideGateway:
+      value:
+        Code: reservedAddressCollideGateway
+        Message: reserved address collide with gateway
+    ErrorreservedAddressOutOfRange:
+      value:
+        Code: reservedAddressOutOfRange
+        Message: reserved address out of range
+  parameters:
+    id:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+  responses:
+    default:
+      description: ""
+  schemas:
+    Address:
+      properties:
+        broadcast:
+          format: string
+          type: string
+        created:
+          format: dateTime
+          type: string
+        gateway:
+          format: string
+          type: string
+        id:
+          format: UUIDShort
+          type: string
+        name:
+          format: string
+          type: string
+        range:
+          format: string
+          type: string
+        reserved:
+          format: stringArray
+          items:
+            type: string
+          type: array
+        updated:
+          format: dateTime
+          type: string
+      required:
+      - id
+      - name
+      - range
+      - gateway
+      - broadcast
+      - reserved
+      - created
+      - updated
+      type: object
+    Error:
+      format: error
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    RequestPostAddress:
+      properties:
+        broadcast:
+          format: string
+          type: string
+        gateway:
+          format: string
+          type: string
+        name:
+          format: string
+          type: string
+        range:
+          format: string
+          type: string
+        reserved:
+          format: stringArray
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - range
+      - gateway
+      - broadcast
+      - reserved
+      type: object
+    RequestPutAddress:
+      properties:
+        broadcast:
+          format: string
+          type: string
+        gateway:
+          format: string
+          type: string
+        name:
+          format: string
+          type: string
+        range:
+          format: string
+          type: string
+        reserved:
+          format: stringArray
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - range
+      - gateway
+      - broadcast
+      - reserved
+      type: object
+    ResponseAddress:
+      properties:
+        broadcast:
+          format: string
+          type: string
+        created:
+          format: dateTime
+          type: string
+        gateway:
+          format: string
+          type: string
+        id:
+          format: UUIDShort
+          type: string
+        name:
+          format: string
+          type: string
+        range:
+          format: string
+          type: string
+        reserved:
+          format: stringArray
+          items:
+            type: string
+          type: array
+        updated:
+          format: dateTime
+          type: string
+      required:
+      - id
+      - name
+      - range
+      - gateway
+      - broadcast
+      - reserved
+      - created
+      - updated
+      type: object
+    ResponseAddressList:
+      properties:
+        list:
+          format: objectArray
+          items:
+            $ref: '#/components/schemas/Address'
+          type: array
+      required:
+      - list
+      type: object
+    ResponseSuccess:
+      properties:
+        Success:
+          format: boolean
+          type: boolean
+      required:
+      - Success
+      type: object
+info:
+  contact:
+    email: vyvoj@vshosting.cz
+  description: OpenAPI 3.0.0 documentation for VSHosting s.r.o. project testinginterview.
+  license:
+    name: VSHosting s.r.o. client licence
+    url: http://www.vshosting.cz
+  title: testinginterview-public
+  version: 458b4c26da433497c9b26eace52de325
+openapi: 3.0.0
+paths:
+  /api/public/address:
+    get:
+      description: Adresy
+      operationId: 503daf9a-2d09-492e-801f-e26ef76b95a0
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAddressList'
+          description: Success response
+      tags:
+      - Address
+    post:
+      description: Založení adresy
+      operationId: 129417d3-9429-47f7-86bc-e857aa9fcb35
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestPostAddress'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAddress'
+          description: Success response
+        "400":
+          content:
+            application/json:
+              examples:
+                broadcastOutOfRange:
+                  $ref: '#/components/examples/ErrorbroadcastOutOfRange'
+                gatewayOutOfRange:
+                  $ref: '#/components/examples/ErrorgatewayOutOfRange'
+                invalidBroadcast:
+                  $ref: '#/components/examples/ErrorinvalidBroadcast'
+                invalidGateway:
+                  $ref: '#/components/examples/ErrorinvalidGateway'
+                invalidRange:
+                  $ref: '#/components/examples/ErrorinvalidRange'
+                invalidReservedAddress:
+                  $ref: '#/components/examples/ErrorinvalidReservedAddress'
+                rangeNameExists:
+                  $ref: '#/components/examples/ErrorrangeNameExists'
+                reservedAddressCollideBroadcast:
+                  $ref: '#/components/examples/ErrorreservedAddressCollideBroadcast'
+                reservedAddressCollideGateway:
+                  $ref: '#/components/examples/ErrorreservedAddressCollideGateway'
+                reservedAddressOutOfRange:
+                  $ref: '#/components/examples/ErrorreservedAddressOutOfRange'
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error response
+      tags:
+      - Address
+  /api/public/address/{id}:
+    delete:
+      description: Smazání adresy
+      operationId: acb706d9-f2be-440c-8eba-65ad6131e892
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSuccess'
+          description: Success response
+        "400":
+          content:
+            application/json:
+              examples:
+                addressNotFound:
+                  $ref: '#/components/examples/ErroraddressNotFound'
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error response
+      tags:
+      - Address
+    get:
+      description: Adresa
+      operationId: 03d3992f-68a1-406e-87fc-d7fe60192be6
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAddress'
+          description: Success response
+        "400":
+          content:
+            application/json:
+              examples:
+                addressNotFound:
+                  $ref: '#/components/examples/ErroraddressNotFound'
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error response
+      tags:
+      - Address
+    put:
+      description: Změna adresy
+      operationId: 483462c0-4e10-4caa-977e-b8b44082d89a
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestPutAddress'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAddress'
+          description: Success response
+        "400":
+          content:
+            application/json:
+              examples:
+                addressNotFound:
+                  $ref: '#/components/examples/ErroraddressNotFound'
+                broadcastOutOfRange:
+                  $ref: '#/components/examples/ErrorbroadcastOutOfRange'
+                gatewayOutOfRange:
+                  $ref: '#/components/examples/ErrorgatewayOutOfRange'
+                invalidBroadcast:
+                  $ref: '#/components/examples/ErrorinvalidBroadcast'
+                invalidGateway:
+                  $ref: '#/components/examples/ErrorinvalidGateway'
+                invalidRange:
+                  $ref: '#/components/examples/ErrorinvalidRange'
+                invalidReservedAddress:
+                  $ref: '#/components/examples/ErrorinvalidReservedAddress'
+                rangeNameExists:
+                  $ref: '#/components/examples/ErrorrangeNameExists'
+                reservedAddressCollideBroadcast:
+                  $ref: '#/components/examples/ErrorreservedAddressCollideBroadcast'
+                reservedAddressCollideGateway:
+                  $ref: '#/components/examples/ErrorreservedAddressCollideGateway'
+                reservedAddressOutOfRange:
+                  $ref: '#/components/examples/ErrorreservedAddressOutOfRange'
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Error response
+      tags:
+      - Address
+tags:
+- name: Address
