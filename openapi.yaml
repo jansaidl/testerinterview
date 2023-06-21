@@ -1,9 +1,5 @@
 components:
   examples:
-    ErroraddressNotFound:
-      value:
-        Code: addressNotFound
-        Message: address not found
     ErrorbroadcastOutOfRange:
       value:
         Code: broadcastOutOfRange
@@ -28,6 +24,10 @@ components:
       value:
         Code: invalidReservedAddress
         Message: invalid reserved address
+    Erroripv4RangeNotFound:
+      value:
+        Code: ipv4RangeNotFound
+        Message: ipv4Range not found
     ErrorrangeNameExists:
       value:
         Code: rangeNameExists
@@ -55,44 +55,6 @@ components:
     default:
       description: ""
   schemas:
-    Address:
-      properties:
-        broadcast:
-          format: string
-          type: string
-        created:
-          format: dateTime
-          type: string
-        gateway:
-          format: string
-          type: string
-        id:
-          format: UUIDShort
-          type: string
-        name:
-          format: string
-          type: string
-        range:
-          format: string
-          type: string
-        reserved:
-          format: stringArray
-          items:
-            type: string
-          type: array
-        updated:
-          format: dateTime
-          type: string
-      required:
-      - id
-      - name
-      - range
-      - gateway
-      - broadcast
-      - reserved
-      - created
-      - updated
-      type: object
     Error:
       format: error
       properties:
@@ -100,67 +62,12 @@ components:
           type: string
         message:
           type: string
-    RequestPostAddress:
+    Ipv4Range:
       properties:
-        broadcast:
-          format: string
-          type: string
-        gateway:
-          format: string
-          type: string
-        name:
-          format: string
-          type: string
-        range:
-          format: string
-          type: string
-        reserved:
-          format: stringArray
-          items:
-            type: string
-          type: array
-      required:
-      - name
-      - range
-      - gateway
-      - broadcast
-      - reserved
-      type: object
-    RequestPutAddress:
-      properties:
-        broadcast:
-          format: string
-          type: string
-        gateway:
-          format: string
-          type: string
-        name:
-          format: string
-          type: string
-        range:
-          format: string
-          type: string
-        reserved:
-          format: stringArray
-          items:
-            type: string
-          type: array
-      required:
-      - name
-      - range
-      - gateway
-      - broadcast
-      - reserved
-      type: object
-    ResponseAddress:
-      properties:
-        broadcast:
-          format: string
-          type: string
         created:
           format: dateTime
           type: string
-        gateway:
+        gatewayIp:
           format: string
           type: string
         id:
@@ -169,10 +76,10 @@ components:
         name:
           format: string
           type: string
-        range:
+        rangeCidr:
           format: string
           type: string
-        reserved:
+        reservedIps:
           format: stringArray
           items:
             type: string
@@ -183,19 +90,96 @@ components:
       required:
       - id
       - name
-      - range
-      - gateway
-      - broadcast
-      - reserved
+      - rangeCidr
+      - gatewayIp
+      - reservedIps
       - created
       - updated
       type: object
-    ResponseAddressList:
+    RequestPostIpv4Range:
+      properties:
+        gatewayIp:
+          format: string
+          type: string
+        name:
+          format: string
+          type: string
+        rangeCidr:
+          format: string
+          type: string
+        reservedIPs:
+          format: stringArray
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - rangeCidr
+      - gatewayIp
+      - reservedIPs
+      type: object
+    RequestPutIpv4Range:
+      properties:
+        gatewayIp:
+          format: string
+          type: string
+        name:
+          format: string
+          type: string
+        rangeCidr:
+          format: string
+          type: string
+        reservedIps:
+          format: stringArray
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - rangeCidr
+      - gatewayIp
+      - reservedIps
+      type: object
+    ResponseIpv4Range:
+      properties:
+        created:
+          format: dateTime
+          type: string
+        gatewayIp:
+          format: string
+          type: string
+        id:
+          format: UUIDShort
+          type: string
+        name:
+          format: string
+          type: string
+        rangeCidr:
+          format: string
+          type: string
+        reservedIps:
+          format: stringArray
+          items:
+            type: string
+          type: array
+        updated:
+          format: dateTime
+          type: string
+      required:
+      - id
+      - name
+      - rangeCidr
+      - gatewayIp
+      - reservedIps
+      - created
+      - updated
+      type: object
+    ResponseIpv4RangeList:
       properties:
         list:
           format: objectArray
           items:
-            $ref: '#/components/schemas/Address'
+            $ref: '#/components/schemas/Ipv4Range'
           type: array
       required:
       - list
@@ -216,43 +200,41 @@ info:
     name: VSHosting s.r.o. client licence
     url: http://www.vshosting.cz
   title: testinginterview-public
-  version: 458b4c26da433497c9b26eace52de325
+  version: 3f8bfc847400e75c88a2e043930a49bd
 openapi: 3.0.0
 paths:
-  /api/public/address:
+  /api/public/ipv4-range:
     get:
-      description: Adresy
+      description: Rozsahy
       operationId: 503daf9a-2d09-492e-801f-e26ef76b95a0
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseAddressList'
+                $ref: '#/components/schemas/ResponseIpv4RangeList'
           description: Success response
       tags:
-      - Address
+      - Ipv4Range
     post:
-      description: Založení adresy
+      description: Založení rozsahu
       operationId: 129417d3-9429-47f7-86bc-e857aa9fcb35
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestPostAddress'
+              $ref: '#/components/schemas/RequestPostIpv4Range'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseAddress'
+                $ref: '#/components/schemas/ResponseIpv4Range'
           description: Success response
         "400":
           content:
             application/json:
               examples:
-                broadcastOutOfRange:
-                  $ref: '#/components/examples/ErrorbroadcastOutOfRange'
                 gatewayOutOfRange:
                   $ref: '#/components/examples/ErrorgatewayOutOfRange'
                 invalidBroadcast:
@@ -275,10 +257,10 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Error response
       tags:
-      - Address
-  /api/public/address/{id}:
+      - Ipv4Range
+  /api/public/ipv4-range/{id}:
     delete:
-      description: Smazání adresy
+      description: Smazání rozsahu
       operationId: acb706d9-f2be-440c-8eba-65ad6131e892
       parameters:
       - $ref: '#/components/parameters/id'
@@ -293,15 +275,15 @@ paths:
           content:
             application/json:
               examples:
-                addressNotFound:
-                  $ref: '#/components/examples/ErroraddressNotFound'
+                ipv4RangeNotFound:
+                  $ref: '#/components/examples/Erroripv4RangeNotFound'
               schema:
                 $ref: '#/components/schemas/Error'
           description: Error response
       tags:
-      - Address
+      - Ipv4Range
     get:
-      description: Adresa
+      description: Rozsah
       operationId: 03d3992f-68a1-406e-87fc-d7fe60192be6
       parameters:
       - $ref: '#/components/parameters/id'
@@ -310,21 +292,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseAddress'
+                $ref: '#/components/schemas/ResponseIpv4Range'
           description: Success response
         "400":
           content:
             application/json:
               examples:
-                addressNotFound:
-                  $ref: '#/components/examples/ErroraddressNotFound'
+                ipv4RangeNotFound:
+                  $ref: '#/components/examples/Erroripv4RangeNotFound'
               schema:
                 $ref: '#/components/schemas/Error'
           description: Error response
       tags:
-      - Address
+      - Ipv4Range
     put:
-      description: Změna adresy
+      description: Změna rozssahu
       operationId: 483462c0-4e10-4caa-977e-b8b44082d89a
       parameters:
       - $ref: '#/components/parameters/id'
@@ -332,20 +314,18 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RequestPutAddress'
+              $ref: '#/components/schemas/RequestPutIpv4Range'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseAddress'
+                $ref: '#/components/schemas/ResponseIpv4Range'
           description: Success response
         "400":
           content:
             application/json:
               examples:
-                addressNotFound:
-                  $ref: '#/components/examples/ErroraddressNotFound'
                 broadcastOutOfRange:
                   $ref: '#/components/examples/ErrorbroadcastOutOfRange'
                 gatewayOutOfRange:
@@ -358,6 +338,8 @@ paths:
                   $ref: '#/components/examples/ErrorinvalidRange'
                 invalidReservedAddress:
                   $ref: '#/components/examples/ErrorinvalidReservedAddress'
+                ipv4RangeNotFound:
+                  $ref: '#/components/examples/Erroripv4RangeNotFound'
                 rangeNameExists:
                   $ref: '#/components/examples/ErrorrangeNameExists'
                 reservedAddressCollideBroadcast:
@@ -370,6 +352,6 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: Error response
       tags:
-      - Address
+      - Ipv4Range
 tags:
-- name: Address
+- name: Ipv4Range
